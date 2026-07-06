@@ -1,0 +1,35 @@
+-- decoration.lua
+-- Uses variables from configs.lua (global)
+
+hypr.set("general", {
+    gaps_in = inner_gap,
+    gaps_out = outer_gap,
+    border_size = border,
+    col.active_border = act_border,
+    col.inactive_border = inact_border,
+})
+
+hypr.set("decoration", {
+    rounding = rounding,
+    fullscreen_opacity = 1.0,
+    dim_inactive = false,
+    dim_strength = 1,
+    dim_special = 1,
+    shadow = {
+        enabled = true,
+        range = shadow_range,
+        render_power = 4,
+        color = act_border,
+        color_inactive = inact_border,
+    },
+    blur = {
+        enabled = true,
+        size = blur_size,
+        passes = blur_pass,
+        ignore_opacity = true,
+        noise = 0.01,
+        contrast = 1,
+        popups = true,
+        popups_ignorealpha = 0.5,
+    },
+})
