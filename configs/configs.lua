@@ -1,5 +1,6 @@
 -- configs.lua
--- Assumes `active` and `inactive` are already defined (global)
+-- Shared visual configuration variables.
+-- Loaded after colors-hyprland.lua; `active` and `inactive` must be in scope.
 
 opacity_act   = 0.9
 opacity_deact = 0.8
