@@ -52,7 +52,7 @@ hl.bind(mainMod .. " + SHIFT + P",     hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + X",             hl.dsp.exec_cmd(scripts_dir .. "/wlogout.sh 2"))
 hl.bind(mainMod .. " + ALT + X",       hl.dsp.exec_cmd(scripts_dir .. "/wlogout.sh 1"))
 hl.bind(mainMod .. " + SHIFT + L",     hl.dsp.exec_cmd("hyprlock"))
-hl.bind(mainMod .. " + ALT + L",       hl.dsp.exec_cmd(scripts_dir .. "/toggle_dark_light.sh"))
+hl.bind(mainMod .. " + ALT + L",       hl.dsp.exec_cmd(scripts_dir .. "/hyprlock.sh"))
 
 -- ── Browser / apps ───────────────────────────────────────────────────────────
 hl.bind(mainMod .. " + C",             hl.dsp.exec_cmd("code || codium"))
