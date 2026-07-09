@@ -9,7 +9,7 @@ EOF
 }
 
 # Script for setting window border width and roundness.
-setting="$HOME/.config/hypr/configs/configs.conf"
+setting="$HOME/.config/hypr/configs/configs.lua"
 rofiVars="$HOME/.config/rofi/rofi-vars.rasi"
 
 
@@ -19,9 +19,9 @@ printf "\n  => Choose which settings you want to change\n  -> Need to select usi
 echo
 _hyprland_choice=$(gum choose \
     --header "Select settings:" \
-    --header.foreground "#bdb0ca" \
+    --header.foreground "#c7c0c3" \
     --no-limit \
-    --cursor.foreground "#bdb0ca" \
+    --cursor.foreground "#c7c0c3" \
     "border size" \
     "roundness" \
     "inner gap" \
@@ -51,7 +51,7 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             borderSize=$(gum input --placeholder "Type border width...")
         done
-        sed -i "s/\$border = .*/\\\$border = $borderSize/g" "$setting"
+        sed -i "s/^border[ ]*=.*/border        = $borderSize/g" "$setting"
         sed -i "s/border-size: .*/border-size: ${borderSize}px;/g" "$rofiVars"
         ;;
     "roundness")
@@ -61,7 +61,7 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             rounding=$(gum input --placeholder "Type border roundness...")
         done
-        sed -i 's/\$rounding = .*/$rounding = '"$rounding"'/g' "$setting"
+        sed -i "s/^rounding[ ]*=.*/rounding      = $rounding/g" "$setting"
         sed -i "s/radius: .*/radius: ${rounding}px;/g" "$rofiVars"
         sed -i "s/radius-second: .*/radius-second: $((rounding / 2))px;/g" "$rofiVars"
         ;;
@@ -72,7 +72,7 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             gaps_in=$(gum input --placeholder "Type the inner gap...")
         done
-        sed -i "s/\$inner_gap = .*/\\\$inner_gap = $gaps_in/g" "$setting"
+        sed -i "s/^inner_gap[ ]*=.*/inner_gap     = $gaps_in/g" "$setting"
         ;;
     "outer gap")
         printf "\n[ <> ]\nSetting outer gap...\n\n"
@@ -81,7 +81,7 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             gaps_out=$(gum input --placeholder "Type the outer gap...")
         done
-        sed -i "s/\$outer_gap = .*/\\\$outer_gap = $gaps_out/g" "$setting"
+        sed -i "s/^outer_gap[ ]*=.*/outer_gap     = $gaps_out/g" "$setting"
         ;;
     "blur")
         printf "\n[ <> ]\nSetting blur...\n\n"
@@ -95,8 +95,8 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             _blur_passes=$(gum input --placeholder "Type the amount of blur passes...")
         done
-        sed -i "s/\$blur_size = .*/\\\$blur_size = $_blur_size/g" "$setting"
-        sed -i "s/\$blur_pass = .*/\\\$blur_pass = $_blur_passes/g" "$setting"
+        sed -i "s/^blur_size[ ]*=.*/blur_size     = $_blur_size/g" "$setting"
+        sed -i "s/^blur_pass[ ]*=.*/blur_pass     = $_blur_passes/g" "$setting"
         ;;
     "opacity")
         printf "\n[ <> ]\nSetting opacity...\n\n"
@@ -110,8 +110,8 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             _inact_op=$(gum input --placeholder "Type the amount of inactive opacity (ex: 0.9)...")
         done
-        sed -i "s/\$opacity_act = .*/\\\$opacity_act = $_act_op/g" "$setting"
-        sed -i "s/\$opacity_deact = .*/\\\$opacity_deact = $_inact_op/g" "$setting"
+        sed -i "s/^opacity_act[ ]*=.*/opacity_act   = $_act_op/g" "$setting"
+        sed -i "s/^opacity_deact[ ]*=.*/opacity_deact = $_inact_op/g" "$setting"
         ;;
     "shadow")
         printf "\n[ <> ]\nSetting shadow range ( 0 means no shadow )...\n\n"
@@ -120,7 +120,7 @@ for user_choice in "${primary_choice[@]}"; do
             printf "Invalid input. Please enter a number.\n"
             _shd_rng=$(gum input --placeholder "Type the amount of shadow range...")
         done
-        sed -i "s/\$shadow_range = .*/\\\$shadow_range = $_shd_rng/g" "$setting"
+        sed -i "s/^shadow_range[ ]*=.*/shadow_range  = $_shd_rng/g" "$setting"
         ;;
     *)
         echo "Invalid choice: $user_choice"
