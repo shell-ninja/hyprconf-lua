@@ -2,11 +2,45 @@
 
 display() {
     cat << EOF
+EOF
+}
+
+display() {
+    # Get terminal width
+    local cols=$(tput cols)
+    
+    # Use a here-document with quoted 'EOF' to treat content as literal text
+    # This prevents issues with backticks or quotes inside the ASCII art
+    local art
+    art=$(cat << 'EOF'
             ╔═╗┬ ┬┌─┐┌┐┌┌─┐┌─┐  ╔═╗┌─┐┌┬┐┌┬┐┬┌┐┌┌─┐┌─┐            
             ║  ├─┤├─┤││││ ┬├┤   ╚═╗├┤  │  │ │││││ ┬└─┐            
 ────────────╚═╝┴ ┴┴ ┴┘└┘└─┘└─┘  ╚═╝└─┘ ┴  ┴ ┴┘└┘└─┘└─┘────────────
+                                                     
 EOF
-}
+)
+
+    # Find the width of the widest line
+    local max_width=0
+    while IFS= read -r line; do
+        local len=${#line}
+        if (( len > max_width )); then
+            max_width=$len
+        fi
+    done <<< "$art"
+
+    # Calculate padding
+    local padding=0
+    if (( cols > max_width )); then
+        padding=$(( (cols - max_width) / 2 ))
+    fi
+
+    # Print with padding
+    local spaces=$(printf '%*s' "$padding" '')
+    while IFS= read -r line; do
+        printf "%s%s\n" "$spaces" "$line"
+    done <<< "$art"
+}   
 
 # Script for setting window border width and roundness.
 setting="$HOME/.config/hypr/configs/configs.lua"
@@ -19,9 +53,9 @@ printf "\n  => Choose which settings you want to change\n  -> Need to select usi
 echo
 _hyprland_choice=$(gum choose \
     --header "Select settings:" \
-    --header.foreground "#c7c0c3" \
+    --header.foreground "#ccb7b6" \
     --no-limit \
-    --cursor.foreground "#c7c0c3" \
+    --cursor.foreground "#ccb7b6" \
     "border size" \
     "roundness" \
     "inner gap" \

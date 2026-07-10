@@ -1,18 +1,31 @@
 #!/bin/bash
 
-animations=$(hyprctl getoption animations:enabled | awk 'NR==1 {print $2}')
-decoration="$HOME/.config/hypr/configs/decoration.conf"
-animationsConf="$HOME/.config/hypr/configs/animation.conf"
+animations=$(hyprctl getoption animations:enabled | grep "bool" | awk '{print $2}')
+decoration="$HOME/.hyprconf/hypr/configs/decoration.lua"
+animationsConf="$HOME/.hyprconf/hypr/configs/animation.lua"
+icon="$HOME/.hyprconf/hypr/icons/animation.svg"
 
-if [[ "$animations" == 1 ]]; then
-    sed -i 's|^source *=.*|source = ~/.config/hypr/configs/configs_noanimation.conf|' "$decoration"
+notify_off() {
+    notify-send "Turned Off" -i "$icon" "Disabled Animations."
+}
 
-    sed -i 's|^\([[:space:]]*enabled *=\).*|\1 0|' "$animationsConf"
+notify_on() {
+    notify-send "Turned On" -i "$icon" "Enabled Animations."
+}
+
+if [[ "$animations" == true ]]; then
+    notify_off
+
+    sed -i 's|^source *=.*|source = ~/.config/hypr/configs/configs_noanimation.lua|' "$decoration"
+
+    sed -i 's|^\([[:space:]]*enabled *=\).*|\1 0,|' "$animationsConf"
 
 else
-    sed -i 's|^source *=.*|source = ~/.config/hypr/configs/configs.conf|' "$decoration"
+    notify_on
 
-    sed -i 's|^\([[:space:]]*enabled *=\).*|\1 1|' "$animationsConf"
+    sed -i 's|^source *=.*|source = ~/.config/hypr/configs/configs.lua|' "$decoration"
+
+    sed -i 's|^\([[:space:]]*enabled *=\).*|\1 1,|' "$animationsConf"
 fi
 
 hyprctl reload

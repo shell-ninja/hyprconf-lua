@@ -1,6 +1,6 @@
 #!/bin/bash
 
-iDIR="$HOME/.config/hypr/icons/brightness"
+iDIR="$HOME/.hyprconf/hypr/icons/brightness"
 notification_timeout=1000
 
 if [[ -d "/sys/class/power_supply/BAT0" ]]; then

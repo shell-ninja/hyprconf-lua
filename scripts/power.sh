@@ -14,7 +14,7 @@ case $1 in
     --logout)
         "$HOME/.config/hypr/scripts/uptime.sh"
         "$HOME/.config/hypr/scripts/notification.sh" logout
-        hyprctl dispatch exit 1
+        hyprctl dispatch 'hl.dsp.exit()'
         ;;
     --lock)
         sleep 0.1

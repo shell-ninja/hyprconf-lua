@@ -73,9 +73,19 @@ hl.window_rule({ match = { class = "^(xfce-polkit)$" }, size = "monitor_w*0.3 mo
 hl.window_rule({ match = { class = "^(localsend)$" }, size = "monitor_w*0.4 monitor_h*0.4" })
 hl.window_rule({ match = { class = "^(com.gabm.satty)$" }, size = "monitor_w*0.6 monitor_h*0.6" })
 
--- Opacity
-hl.window_rule({ match = { tag = "file-manager" }, active_opacity = opacity_act, inactive_opacity = opacity_deact })
-hl.window_rule({ match = { tag = "browser" }, active_opacity = 1.0, inactive_opacity = opacity_deact })
+-- ── Opacity Rules ─────────────────────────────────────────────────────────────
+-- Syntax: opacity = "active inactive [fullscreen]"
+-- Use "override" to force absolute values instead of multipliers
+
+hl.window_rule({
+    match = { tag = "file-manager" },
+    opacity = string.format("%.1f %.1f", opacity_act, opacity_deact)
+})
+
+hl.window_rule({
+    match = { tag = "browser" },
+    opacity = string.format("1.0 %.1f", opacity_deact)
+})
 
 -- Workspace assignment
 hl.window_rule({ match = { class = "^(kitty)$", title = "^(main)$" }, workspace = "1" })
@@ -89,8 +99,9 @@ hl.workspace_rule({
     gaps_out = 60,
     gaps_in = 30,
     border_size = 5,
-    border = true,
-    shadow = false,
+    no_border = false, -- Correct: Use no_border (false means keep borders)
+    no_shadow = true,  -- Correct: Use no_shadow (true means disable shadows)
+    -- decorate = true,  -- Optional: Explicitly enable decorations if disabled globally
 })
 
 -- Layer rules
